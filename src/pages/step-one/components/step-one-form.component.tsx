@@ -5,6 +5,7 @@ import Button from "../../../components/buttom.component";
 import { Input } from "../../../components/form/input.component";
 import { Select } from "../../../components/form/select.component";
 import { meals } from "../../../data/meals";
+import { useStepOneData } from "../../../hooks/use-step-one-data";
 
 const StepOneFormSchema = Yup.object().shape({
   meal: Yup.string().required("Required"),
@@ -15,6 +16,7 @@ const StepOneFormSchema = Yup.object().shape({
 });
 
 export default function StepOneForm() {
+  const { setStepOneData } = useStepOneData();
   const formik = useFormik({
     initialValues: {
       meal: "",
@@ -22,7 +24,7 @@ export default function StepOneForm() {
     },
     validationSchema: StepOneFormSchema,
     onSubmit: (values) => {
-      console.log(values, " :values");
+      setStepOneData(values);
     },
   });
 
