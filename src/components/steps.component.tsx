@@ -14,7 +14,7 @@ export default function Steps({ steps, currentStep }: StepsProps) {
       {steps.map(({ title, order }) => (
         <li
           key={`step-${order}`}
-          className={`step ${currentStep === order ? "step-primary" : ""}`}
+          className={`step ${currentStep >= order ? "step-primary" : ""}`}
         >
           {title}
         </li>

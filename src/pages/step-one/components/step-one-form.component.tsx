@@ -1,21 +1,25 @@
 import { useFormik } from "formik";
+import { useMemo } from "react";
 import * as Yup from "yup";
 
-import Button from "../../../components/buttom.component";
 import { Input } from "../../../components/form/input.component";
 import { Select } from "../../../components/form/select.component";
+import StepFormFooter from "../../../components/form/step-form-footer.component";
 import { meals } from "../../../data/meals";
 import { useStepOneData } from "../../../hooks/use-step-one-data";
+import { FormSuccessProps } from "../../../interfaces/form.interface";
 
 const StepOneFormSchema = Yup.object().shape({
-  meal: Yup.string().required("Required"),
+  meal: Yup.string().required("Please Select"),
   people: Yup.number()
     .min(1, "Min 1 Person")
     .max(10, "Max 10 People")
     .required("Required"),
 });
 
-export default function StepOneForm() {
+interface StepOneFormProps extends FormSuccessProps {}
+
+export default function StepOneForm({ onSuccess }: StepOneFormProps) {
   const { setStepOneData } = useStepOneData();
   const formik = useFormik({
     initialValues: {
@@ -25,8 +29,14 @@ export default function StepOneForm() {
     validationSchema: StepOneFormSchema,
     onSubmit: (values) => {
       setStepOneData(values);
+      onSuccess();
     },
   });
+
+  const mealOptions = useMemo(
+    () => meals.map((m) => ({ value: m.value, label: m.title })),
+    []
+  );
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -35,7 +45,7 @@ export default function StepOneForm() {
           <h3 className="mb-5">Please Select a meal</h3>
           <Select
             placeHolder="Select one"
-            options={meals.map((m) => ({ value: m.value, label: m.title }))}
+            options={mealOptions}
             value={formik.values.meal}
             name="meal"
             onChange={formik.handleChange}
@@ -55,9 +65,9 @@ export default function StepOneForm() {
             touched={formik.touched.people}
           />
         </div>
-
-        <Button buttonType="submit" text="Next" />
       </div>
+
+      <StepFormFooter isShowPrevious={false} />
     </form>
   );
 }

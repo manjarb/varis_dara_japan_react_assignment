@@ -1,7 +1,10 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Steps, { Step } from "../components/steps.component";
+import { RouterPath } from "../index";
 
 export default function PublicLayout() {
+  let location = useLocation();
+
   const steps: Step[] = [
     {
       order: 1,
@@ -21,10 +24,24 @@ export default function PublicLayout() {
     },
   ];
 
+  const getOrderByLocationPath = (path: string) => {
+    switch (path) {
+      case `/${RouterPath.StepThree}`:
+        return 3;
+      case `/${RouterPath.StepTwo}`:
+        return 2;
+      default:
+        return 1;
+    }
+  };
+
   return (
-    <div className="container py-5 mx-auto">
+    <div className="container pt-5 mx-auto pb-15">
       <div className="mb-10 flex justify-center">
-        <Steps steps={steps} currentStep={1} />
+        <Steps
+          steps={steps}
+          currentStep={getOrderByLocationPath(location.pathname)}
+        />
       </div>
       <Outlet />
     </div>

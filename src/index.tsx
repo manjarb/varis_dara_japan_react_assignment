@@ -8,7 +8,13 @@ import {
 import './index.css';
 import PublicLayout from './layouts/public.layout';
 import StepOnePage from './pages/step-one/step-one-page';
+import StepTwoPage from './pages/step-two/step-two-page';
 import reportWebVitals from './reportWebVitals';
+
+export enum RouterPath {
+  StepTwo = "step-2",
+  StepThree = "step-3",
+}
 
 const router = createBrowserRouter([
   {
@@ -17,9 +23,13 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <StepOnePage />
-      }
-    ]
+        element: <StepOnePage />,
+      },
+      {
+        path: RouterPath.StepTwo,
+        element: <StepTwoPage />,
+      },
+    ],
   },
 ]);
 

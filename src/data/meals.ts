@@ -1,14 +1,25 @@
-export const meals = [
+export enum MealName {
+  Breakfast = "breakfast",
+  Lunch = "lunch",
+  Dinner = "dinner",
+}
+
+export interface Meal {
+  title: string;
+  value: string;
+}
+
+export const meals: Meal[] = [
   {
     title: "Breakfast",
-    value: "breakfast",
+    value: MealName.Breakfast,
   },
   {
     title: "Lunch",
-    value: "lunch",
+    value: MealName.Lunch,
   },
   {
     title: "Dinner",
-    value: "dinner",
+    value: MealName.Dinner,
   },
 ];
