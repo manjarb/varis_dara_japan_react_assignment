@@ -14,11 +14,13 @@ const StepTwoFormSchema = Yup.object().shape({
 
 interface StepTwoFormProps extends FormSuccessProps {
   selectedMeal: string;
+  onPreviousClick: () => void;
 }
 
 export default function StepTwoForm({
   selectedMeal,
   onSuccess,
+  onPreviousClick,
 }: StepTwoFormProps) {
   const { setStepTwoData } = useStepTwoData();
   const { restaurantsData } = useRestaurantsData();
@@ -60,7 +62,7 @@ export default function StepTwoForm({
           />
         </div>
       </div>
-      <StepFormFooter />
+      <StepFormFooter onPreviousClick={onPreviousClick} />
     </form>
   );
 }

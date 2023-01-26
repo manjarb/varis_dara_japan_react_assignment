@@ -6,7 +6,7 @@ export default function StepOnePage() {
   const navigate = useNavigate();
 
   const onStepOneSuccess = () => {
-    navigate(RouterPath.StepTwo);
+    navigate(`/${RouterPath.StepTwo}`);
   }
 
   return (

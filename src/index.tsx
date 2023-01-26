@@ -1,15 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import './index.css';
-import PublicLayout from './layouts/public.layout';
-import StepOnePage from './pages/step-one/step-one-page';
-import StepTwoPage from './pages/step-two/step-two-page';
-import reportWebVitals from './reportWebVitals';
+import "./index.css";
+import PublicLayout from "./layouts/public.layout";
+import StepOnePage from "./pages/step-one/step-one-page";
+import StepThreePage from "./pages/step-three/step-three-page";
+import StepTwoPage from "./pages/step-two/step-two-page";
+import reportWebVitals from "./reportWebVitals";
 
 export enum RouterPath {
   StepTwo = "step-2",
@@ -29,16 +27,20 @@ const router = createBrowserRouter([
         path: RouterPath.StepTwo,
         element: <StepTwoPage />,
       },
+      {
+        path: RouterPath.StepThree,
+        element: <StepThreePage />,
+      },
     ],
   },
 ]);
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-     <RouterProvider router={router} />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 

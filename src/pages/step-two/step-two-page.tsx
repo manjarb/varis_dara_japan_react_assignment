@@ -15,7 +15,11 @@ export default function StepTwoPage() {
   }, [stepOneData, navigate]);
 
   const onStepTwoSuccess = () => {
-    navigate(RouterPath.StepThree);
+    navigate(`/${RouterPath.StepThree}`);
+  };
+
+  const onPreviousStep = () => {
+    navigate("/");
   };
 
   return (
@@ -24,6 +28,7 @@ export default function StepTwoPage() {
         <StepTwoForm
           onSuccess={onStepTwoSuccess}
           selectedMeal={stepOneData.meal}
+          onPreviousClick={onPreviousStep}
         />
       )}
     </div>
