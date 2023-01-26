@@ -6,6 +6,9 @@ interface InputProps {
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   value: any;
   name: string;
+  error?: string;
+  touched?: boolean;
+  className?: string;
 }
 
 export function Input({
@@ -15,33 +18,43 @@ export function Input({
   min,
   value,
   name,
+  error,
+  touched,
+  className = "",
   onChange,
 }: InputProps) {
-  const inputClass = "input input-bordered w-full max-w-xs";
+  const inputClass = "input input-bordered";
 
   if (inputType === "number") {
     return (
-      <input
-        type={inputType}
-        name={name}
-        className={inputClass}
-        placeholder={placeHolder}
-        max={max}
-        min={min}
-        onChange={onChange}
-        value={value}
-      />
+      <div>
+        <input
+          type={inputType}
+          name={name}
+          className={`${inputClass} ${className} ${error ? 'input-error' : ''}`}
+          placeholder={placeHolder}
+          max={max}
+          min={min}
+          onChange={onChange}
+          value={value}
+        />
+
+        {error && touched ? <div className="mt-3">{error}</div> : null}
+      </div>
     );
   }
 
   return (
-    <input
-      type={inputType}
-      name={name}
-      className={inputClass}
-      placeholder={placeHolder}
-      onChange={onChange}
-      value={value}
-    />
+    <div>
+      <input
+        type={inputType}
+        name={name}
+        className={`${inputClass} ${className} ${error ? "input-error" : ""}`}
+        placeholder={placeHolder}
+        onChange={onChange}
+        value={value}
+      />
+      {error && touched ? <div className="mt-3">{error}</div> : null}
+    </div>
   );
 }

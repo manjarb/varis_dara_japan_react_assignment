@@ -8,25 +8,41 @@ interface SelectProps {
   placeHolder: string;
   value: any;
   name: string;
+  error?: string;
+  touched?: boolean;
   onChange: React.ChangeEventHandler<HTMLSelectElement>;
 }
 
-export function Select({ options, placeHolder, value, name, onChange }: SelectProps) {
+export function Select({
+  options,
+  placeHolder,
+  value,
+  name,
+  error,
+  touched,
+  onChange,
+}: SelectProps) {
   return (
-    <select
-      className="select select-bordered w-full max-w-xs"
-      value={value}
-      name={name}
-      onChange={onChange}
-    >
-      <option disabled value={""}>
-        {placeHolder}
-      </option>
-      {options.map(({ label, value }, index) => (
-        <option key={`option-${value}-${index}`} value={value}>
-          {label}
+    <div>
+      <select
+        className={`select select-bordered w-full max-w-xs ${
+          error ? "select-error" : ""
+        }`}
+        value={value}
+        name={name}
+        onChange={onChange}
+      >
+        <option disabled value={""}>
+          {placeHolder}
         </option>
-      ))}
-    </select>
+        {options.map(({ label, value }, index) => (
+          <option key={`option-${value}-${index}`} value={value}>
+            {label}
+          </option>
+        ))}
+      </select>
+
+      {error && touched ? <div className="mt-3">{error}</div> : null}
+    </div>
   );
 }
