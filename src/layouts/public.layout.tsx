@@ -23,8 +23,8 @@ export default function PublicLayout() {
 
   return (
     <div className="container py-5 mx-auto">
-      <div className="mb-5">
-        <Steps steps={steps} currentStep={1}/>
+      <div className="mb-10 flex justify-center">
+        <Steps steps={steps} currentStep={1} />
       </div>
       <Outlet />
     </div>

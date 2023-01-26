@@ -8,9 +8,7 @@ interface StepsProps {
   currentStep: number;
 }
 
-export default function Steps(props: StepsProps) {
-  const { steps, currentStep } = props;
-
+export default function Steps({ steps, currentStep }: StepsProps) {
   return (
     <ul className="steps">
       {steps.map(({ title, order }) => (
