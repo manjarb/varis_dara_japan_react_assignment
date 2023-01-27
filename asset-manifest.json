@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/varis_dara_japan_react_assignment/static/css/main.41f3844c.css",
+    "main.js": "/varis_dara_japan_react_assignment/static/js/main.6243319f.js",
+    "static/js/787.c4b18223.chunk.js": "/varis_dara_japan_react_assignment/static/js/787.c4b18223.chunk.js",
+    "index.html": "/varis_dara_japan_react_assignment/index.html",
+    "main.41f3844c.css.map": "/varis_dara_japan_react_assignment/static/css/main.41f3844c.css.map",
+    "main.6243319f.js.map": "/varis_dara_japan_react_assignment/static/js/main.6243319f.js.map",
+    "787.c4b18223.chunk.js.map": "/varis_dara_japan_react_assignment/static/js/787.c4b18223.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.41f3844c.css",
+    "static/js/main.6243319f.js"
+  ]
+}
