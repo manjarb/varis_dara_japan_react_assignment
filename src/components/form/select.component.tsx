@@ -26,7 +26,7 @@ export function Select({
     <div>
       <select
         className={`select select-bordered w-full max-w-xs ${
-          error ? "select-error" : ""
+          error && touched ? "select-error" : ""
         }`}
         value={value}
         name={name}

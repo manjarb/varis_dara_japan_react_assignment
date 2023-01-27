@@ -14,7 +14,7 @@ const StepOneFormSchema = Yup.object().shape({
   people: Yup.number()
     .min(1, "Min 1 Person")
     .max(10, "Max 10 People")
-    .required("Required"),
+    .required("Please Put number of People"),
 });
 
 interface StepOneFormProps extends FormSuccessProps {}

@@ -16,6 +16,10 @@ export default function StepThreePage() {
     }
   }, [stepOneData?.meal, navigate, stepTwoData?.restaurant]);
 
+  const onStepThreeSuccess = () => {
+    navigate(`/${RouterPath.Review}`);
+  };
+
   const onPreviousStep = () => {
     navigate(`/${RouterPath.StepTwo}`);
   };
@@ -28,7 +32,7 @@ export default function StepThreePage() {
           selectedRestaurant={stepTwoData.restaurant}
           amountOfPeople={stepOneData.people}
           onPreviousClick={onPreviousStep}
-          onSuccess={() => {}}
+          onSuccess={onStepThreeSuccess}
         />
       )}
     </div>

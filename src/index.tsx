@@ -12,6 +12,7 @@ import reportWebVitals from "./reportWebVitals";
 export enum RouterPath {
   StepTwo = "step-2",
   StepThree = "step-3",
+  Review = 'review'
 }
 
 const router = createBrowserRouter([

@@ -128,7 +128,7 @@
     },
     {
       "id": 22,
-      "name": "Pepperoni Pizza",
+      "name": "Pepperoni Pizza Special",
       "restaurant": "Pizzeria",
       "availableMeals": ["lunch", "dinner"]
     },

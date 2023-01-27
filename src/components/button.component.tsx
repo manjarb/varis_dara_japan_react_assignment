@@ -1,7 +1,7 @@
 interface ButtonProps {
   text: string;
   buttonType?: "button" | "submit" | "reset" | undefined;
-  buttonStyle?: "success" | "warning";
+  buttonStyle?: "success" | "warning" | "info" | "error";
   onClick?: () => void;
 }
 
@@ -17,6 +17,10 @@ export default function Button({
         return "btn-success";
       case "warning":
         return "btn-warning";
+      case "info":
+        return "btn-info";
+      case "error":
+        return "btn-error";
       default:
         break;
     }

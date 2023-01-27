@@ -1,11 +1,61 @@
 import { getIn, useFormik } from "formik";
 import { useMemo } from "react";
+import * as Yup from "yup";
+import Alert from "../../../components/alert.component";
+
 import Button from "../../../components/button.component";
 import { Input } from "../../../components/form/input.component";
 import { Select } from "../../../components/form/select.component";
 import StepFormFooter from "../../../components/form/step-form-footer.component";
 import { useDishesData } from "../../../hooks/use-dishes-data";
+import { useStepThreeData } from "../../../hooks/use-step-three-data";
 import { FormSuccessProps } from "../../../interfaces/form.interface";
+
+Yup.addMethod(Yup.array, "uniqueIn", function (field, message) {
+  return this.test("uniqueIn", message, function (array) {
+    const uniqueData = Array.from(
+      new Set(array?.map((row) => row[field]?.toLowerCase()))
+    );
+    const isUnique = array?.length === uniqueData.length;
+    if (isUnique) {
+      return true;
+    }
+    const index = array?.findIndex((row, i) => {
+      return row && uniqueData && row[field]?.toLowerCase() !== uniqueData[i];
+    });
+
+    if (
+      array &&
+      index !== undefined &&
+      array[index] &&
+      array[index][field] === ""
+    ) {
+      return true;
+    }
+    return this.createError({
+      path: `${this.path}.${index}.${field}`,
+      message,
+    });
+  });
+});
+
+const StepThreeFormSchema = Yup.object().shape({
+  selectedDishes: Yup.array()
+    .of(
+      Yup.object().shape({
+        dishId: Yup.string().required("Please Select"),
+        numberOfServing: Yup.number()
+          .min(1, "Min 1 Serve")
+          .max(10, "Max 10 Serve")
+          .required("Please Put Amount"),
+      })
+    )
+    // @ts-ignore:
+    .uniqueIn(
+      "dishId",
+      "Please not select the same dish twice, rather add more servings."
+    ),
+});
 
 interface StepThreeFormProps extends FormSuccessProps {
   selectedRestaurant: string;
@@ -17,23 +67,26 @@ interface StepThreeFormProps extends FormSuccessProps {
 export default function StepThreeForm({
   selectedRestaurant,
   selectedMeal,
+  amountOfPeople,
+  onPreviousClick,
+  onSuccess,
 }: StepThreeFormProps) {
   const { dishesData } = useDishesData();
+  const { setStepThreeData } = useStepThreeData();
 
   const formik = useFormik({
     initialValues: {
       selectedDishes: [
         {
           dishId: "",
-          numberOfServing: 0,
+          numberOfServing: 1,
         },
       ],
     },
-    // validationSchema: StepTwoFormSchema,
+    validationSchema: StepThreeFormSchema,
     onSubmit: (values) => {
-      console.log(values, " :values");
-      // setStepTwoData(values);
-      // onSuccess();
+      setStepThreeData(values);
+      onSuccess();
     },
   });
 
@@ -51,13 +104,29 @@ export default function StepThreeForm({
   }, [selectedRestaurant, dishesData, selectedMeal]);
 
   const addNewOrder = () => {
-    const newValues = formik.values.selectedDishes;
+    const newValues = formik.values.selectedDishes.slice();
     newValues.push({
       dishId: "",
-      numberOfServing: 0,
+      numberOfServing: 1,
     });
     formik.setFieldValue("selectedDishes", newValues);
-  }
+  };
+
+  const deleteOrder = (index: number) => {
+    const copyValue = formik.values.selectedDishes.slice();
+    copyValue.splice(index, 1);
+    formik.setFieldValue("selectedDishes", copyValue);
+  };
+
+  const amountOfServing = useMemo(() => {
+    return formik.values.selectedDishes.reduce((x, y) => {
+      return x + y.numberOfServing;
+    }, 0);
+  }, [formik.values.selectedDishes]);
+
+  const isLackAmount = useMemo(() => {
+    return amountOfServing < amountOfPeople && formik.dirty;
+  }, [amountOfServing, amountOfPeople, formik.dirty]);
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -74,7 +143,7 @@ export default function StepThreeForm({
           return (
             <div
               key={`selectedDishes-option-${index}`}
-              className="flex mt-[20px]"
+              className="flex mt-[20px] w-[720px]"
             >
               <div className="flex-auto mr-[10px]">
                 <h3 className="mb-5">Please Select a Dish</h3>
@@ -89,9 +158,10 @@ export default function StepThreeForm({
                 />
               </div>
 
-              <div className="flex-auto ml-[10px]">
+              <div className="ml-[10px] mr-[5px]">
                 <h3 className="mb-5">Please Enter No of Serving</h3>
                 <Input
+                  min={1}
                   inputType="number"
                   name={servingName}
                   value={value.numberOfServing}
@@ -100,16 +170,35 @@ export default function StepThreeForm({
                   touched={touchServing}
                 />
               </div>
+
+              <div className="ml-[5px] mt-[44px] w-[88px]">
+                {formik.values.selectedDishes.length > 1 && (
+                  <Button
+                    onClick={() => deleteOrder(index)}
+                    buttonStyle="error"
+                    text="Delete"
+                  />
+                )}
+              </div>
             </div>
           );
         })}
 
         <div className="mt-10">
-          <Button onClick={addNewOrder} text="Add" />
+          <span className="mr-[20px]">Total dishes: {amountOfServing}</span>
+          <Button onClick={addNewOrder} buttonStyle="info" text="Add" />
         </div>
       </div>
 
-      <StepFormFooter />
+      {isLackAmount && (
+        <div className="w-[720px] pt-[20px] pb-[20px] mx-auto">
+          <Alert
+            text={`You need to order at least ${amountOfPeople} dishes for ${amountOfPeople} people`}
+          />
+        </div>
+      )}
+
+      <StepFormFooter onPreviousClick={onPreviousClick} />
     </form>
   );
 }
