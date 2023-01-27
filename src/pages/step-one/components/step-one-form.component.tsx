@@ -7,6 +7,8 @@ import { Select } from "../../../components/form/select.component";
 import StepFormFooter from "../../../components/form/step-form-footer.component";
 import { meals } from "../../../data/meals";
 import { StepOneData, useStepOneData } from "../../../hooks/use-step-one-data";
+import { useStepThreeData } from "../../../hooks/use-step-three-data";
+import { useStepTwoData } from "../../../hooks/use-step-two-data";
 import { FormSuccessProps } from "../../../interfaces/form.interface";
 
 const StepOneFormSchema = Yup.object().shape({
@@ -26,6 +28,8 @@ export default function StepOneForm({
   onSuccess,
 }: StepOneFormProps) {
   const { setStepOneData } = useStepOneData();
+  const { setStepTwoData } = useStepTwoData();
+  const { setStepThreeData } = useStepThreeData();
   const formik = useFormik({
     initialValues: {
       meal: "",
@@ -34,6 +38,8 @@ export default function StepOneForm({
     validationSchema: StepOneFormSchema,
     onSubmit: (values) => {
       setStepOneData(values);
+      setStepTwoData(null);
+      setStepThreeData(null);
       onSuccess();
     },
   });

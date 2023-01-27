@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { Select } from "../../../components/form/select.component";
 import StepFormFooter from "../../../components/form/step-form-footer.component";
 import { useRestaurantsData } from "../../../hooks/use-restaurants-data";
+import { useStepThreeData } from "../../../hooks/use-step-three-data";
 import { StepTwoData, useStepTwoData } from "../../../hooks/use-step-two-data";
 
 import { FormSuccessProps } from "../../../interfaces/form.interface";
@@ -25,6 +26,7 @@ export default function StepTwoForm({
   onPreviousClick,
 }: StepTwoFormProps) {
   const { setStepTwoData } = useStepTwoData();
+  const { setStepThreeData } = useStepThreeData();
   const { restaurantsData } = useRestaurantsData();
 
   const formik = useFormik({
@@ -34,6 +36,7 @@ export default function StepTwoForm({
     validationSchema: StepTwoFormSchema,
     onSubmit: (values) => {
       setStepTwoData(values);
+      setStepThreeData(null);
       onSuccess();
     },
   });
