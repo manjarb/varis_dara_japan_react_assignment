@@ -1,12 +1,12 @@
 import { useFormik } from "formik";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import * as Yup from "yup";
 
 import { Input } from "../../../components/form/input.component";
 import { Select } from "../../../components/form/select.component";
 import StepFormFooter from "../../../components/form/step-form-footer.component";
 import { meals } from "../../../data/meals";
-import { useStepOneData } from "../../../hooks/use-step-one-data";
+import { StepOneData, useStepOneData } from "../../../hooks/use-step-one-data";
 import { FormSuccessProps } from "../../../interfaces/form.interface";
 
 const StepOneFormSchema = Yup.object().shape({
@@ -17,9 +17,14 @@ const StepOneFormSchema = Yup.object().shape({
     .required("Please Put number of People"),
 });
 
-interface StepOneFormProps extends FormSuccessProps {}
+interface StepOneFormProps extends FormSuccessProps {
+  stepOneData: StepOneData | null;
+}
 
-export default function StepOneForm({ onSuccess }: StepOneFormProps) {
+export default function StepOneForm({
+  stepOneData,
+  onSuccess,
+}: StepOneFormProps) {
   const { setStepOneData } = useStepOneData();
   const formik = useFormik({
     initialValues: {
@@ -32,6 +37,12 @@ export default function StepOneForm({ onSuccess }: StepOneFormProps) {
       onSuccess();
     },
   });
+
+  useEffect(() => {
+    if (stepOneData) {
+      formik.setValues(stepOneData);
+    }
+  }, [stepOneData]);
 
   const mealOptions = useMemo(
     () => meals.map((m) => ({ value: m.value, label: m.title })),

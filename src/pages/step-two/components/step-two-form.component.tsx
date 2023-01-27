@@ -1,10 +1,10 @@
 import { useFormik } from "formik";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import * as Yup from "yup";
 import { Select } from "../../../components/form/select.component";
 import StepFormFooter from "../../../components/form/step-form-footer.component";
 import { useRestaurantsData } from "../../../hooks/use-restaurants-data";
-import { useStepTwoData } from "../../../hooks/use-step-two-data";
+import { StepTwoData, useStepTwoData } from "../../../hooks/use-step-two-data";
 
 import { FormSuccessProps } from "../../../interfaces/form.interface";
 
@@ -14,11 +14,13 @@ const StepTwoFormSchema = Yup.object().shape({
 
 interface StepTwoFormProps extends FormSuccessProps {
   selectedMeal: string;
+  stepTwoData: StepTwoData | null;
   onPreviousClick: () => void;
 }
 
 export default function StepTwoForm({
   selectedMeal,
+  stepTwoData,
   onSuccess,
   onPreviousClick,
 }: StepTwoFormProps) {
@@ -31,11 +33,16 @@ export default function StepTwoForm({
     },
     validationSchema: StepTwoFormSchema,
     onSubmit: (values) => {
-      console.log(values, " :values");
       setStepTwoData(values);
       onSuccess();
     },
   });
+
+  useEffect(() => {
+    if (stepTwoData) {
+      formik.setValues(stepTwoData);
+    }
+  }, [stepTwoData]);
 
   const restaurantOptions = useMemo(() => {
     return restaurantsData

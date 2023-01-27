@@ -1,5 +1,5 @@
 import { getIn, useFormik } from "formik";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import * as Yup from "yup";
 import Alert from "../../../components/alert.component";
 
@@ -8,7 +8,10 @@ import { Input } from "../../../components/form/input.component";
 import { Select } from "../../../components/form/select.component";
 import StepFormFooter from "../../../components/form/step-form-footer.component";
 import { useDishesData } from "../../../hooks/use-dishes-data";
-import { useStepThreeData } from "../../../hooks/use-step-three-data";
+import {
+  StepThreeData,
+  useStepThreeData,
+} from "../../../hooks/use-step-three-data";
 import { FormSuccessProps } from "../../../interfaces/form.interface";
 
 Yup.addMethod(Yup.array, "uniqueIn", function (field, message) {
@@ -61,6 +64,7 @@ interface StepThreeFormProps extends FormSuccessProps {
   selectedRestaurant: string;
   selectedMeal: string;
   amountOfPeople: number;
+  stepThreeData: StepThreeData | null;
   onPreviousClick: () => void;
 }
 
@@ -68,6 +72,7 @@ export default function StepThreeForm({
   selectedRestaurant,
   selectedMeal,
   amountOfPeople,
+  stepThreeData,
   onPreviousClick,
   onSuccess,
 }: StepThreeFormProps) {
@@ -93,6 +98,12 @@ export default function StepThreeForm({
       onSuccess();
     },
   });
+
+  useEffect(() => {
+    if (stepThreeData) {
+      formik.setValues(stepThreeData);
+    }
+  }, [stepThreeData]);
 
   const dishOptions = useMemo(() => {
     return dishesData
