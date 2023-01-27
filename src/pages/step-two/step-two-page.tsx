@@ -23,7 +23,7 @@ export default function StepTwoPage() {
   };
 
   return (
-    <div>
+    <div className="pb-[30px]">
       {stepOneData?.meal && (
         <StepTwoForm
           onSuccess={onStepTwoSuccess}

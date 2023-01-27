@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import "./index.css";
 import PublicLayout from "./layouts/public.layout";
+import ReviewPage from "./pages/review/review-page";
 import StepOnePage from "./pages/step-one/step-one-page";
 import StepThreePage from "./pages/step-three/step-three-page";
 import StepTwoPage from "./pages/step-two/step-two-page";
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: RouterPath.StepThree,
         element: <StepThreePage />,
+      },
+      {
+        path: RouterPath.Review,
+        element: <ReviewPage />,
       },
     ],
   },

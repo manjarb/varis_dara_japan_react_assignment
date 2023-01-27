@@ -25,7 +25,7 @@ export default function StepThreePage() {
   };
 
   return (
-    <div>
+    <div className="pb-[30px]">
       {stepOneData?.meal && stepTwoData?.restaurant && (
         <StepThreeForm
           selectedMeal={stepOneData.meal}

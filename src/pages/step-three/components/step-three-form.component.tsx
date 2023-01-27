@@ -85,6 +85,10 @@ export default function StepThreeForm({
     },
     validationSchema: StepThreeFormSchema,
     onSubmit: (values) => {
+      if (isLackAmount) {
+        return;
+      }
+
       setStepThreeData(values);
       onSuccess();
     },

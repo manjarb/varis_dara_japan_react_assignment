@@ -20,12 +20,14 @@ export default function PublicLayout() {
     },
     {
       order: 4,
-      title: "Step 4",
+      title: "Review",
     },
   ];
 
   const getOrderByLocationPath = (path: string) => {
     switch (path) {
+      case `/${RouterPath.Review}`:
+        return 4;
       case `/${RouterPath.StepThree}`:
         return 3;
       case `/${RouterPath.StepTwo}`:

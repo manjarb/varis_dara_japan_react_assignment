@@ -10,7 +10,7 @@ export default function StepOnePage() {
   }
 
   return (
-    <div>
+    <div className="pb-[30px]">
       <StepOneForm onSuccess={onStepOneSuccess} />
     </div>
   );
